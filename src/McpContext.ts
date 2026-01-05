@@ -24,6 +24,7 @@ import type {
   SerializedAXNode,
   PredefinedNetworkConditions,
 } from './third_party/index.js';
+import type {CoverageReport} from './tools/coverage.js';
 import {listPages} from './tools/pages.js';
 import {takeSnapshot} from './tools/snapshot.js';
 import {CLOSE_PAGE_ERROR} from './tools/ToolDefinition.js';
@@ -111,6 +112,7 @@ export class McpContext implements Context {
     includeJS: true,
     includeCSS: true,
   };
+  #lastCoverageReport: CoverageReport | null = null;
   #networkConditionsMap = new WeakMap<Page, string>();
   #cpuThrottlingRateMap = new WeakMap<Page, number>();
   #geolocationMap = new WeakMap<Page, GeolocationOptions>();
@@ -325,6 +327,14 @@ export class McpContext implements Context {
 
   getCoverageOptions(): {includeJS: boolean; includeCSS: boolean} {
     return this.#coverageOptions;
+  }
+
+  storeLastCoverageReport(report: CoverageReport): void {
+    this.#lastCoverageReport = report;
+  }
+
+  getLastCoverageReport(): CoverageReport | null {
+    return this.#lastCoverageReport;
   }
 
   getDialog(): Dialog | undefined {

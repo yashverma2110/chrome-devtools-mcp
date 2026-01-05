@@ -400,6 +400,14 @@ async function stopCoverageAndAppendOutput(
           : undefined,
     };
 
+    // Store full (non-paginated) coverage report for use by bundle analysis tools
+    const fullReport: CoverageReport = {
+      jsCoverage,
+      cssCoverage,
+      summary: report.summary,
+    };
+    context.storeLastCoverageReport(fullReport);
+
     response.appendResponseLine('Coverage tracking has been stopped.');
     response.appendResponseLine('');
     response.appendResponseLine(formatCoverageReport(report));
