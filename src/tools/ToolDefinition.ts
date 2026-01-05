@@ -6,11 +6,12 @@
 
 import type {TextSnapshotNode, GeolocationOptions} from '../McpContext.js';
 import {zod} from '../third_party/index.js';
-import type {Dialog, ElementHandle, Page} from '../third_party/index.js';
+import type {Dialog, ElementHandle, HTTPRequest, Page} from '../third_party/index.js';
 import type {TraceResult} from '../trace-processing/parse.js';
 import type {PaginationOptions} from '../utils/types.js';
 
 import type {ToolCategory} from './categories.js';
+import type {CoverageReport} from './coverage.js';
 
 export interface ToolDefinition<
   Schema extends zod.ZodRawShape = zod.ZodRawShape,
@@ -127,6 +128,18 @@ export type Context = Readonly<{
    * Returns a reqid for a cdpRequestId.
    */
   resolveCdpElementId(cdpBackendNodeId: number): string | undefined;
+  /**
+   * Returns all network requests for the selected page.
+   */
+  getNetworkRequests(includePreservedRequests?: boolean): HTTPRequest[];
+  /**
+   * Returns the last coverage report, or null if none exists.
+   */
+  getLastCoverageReport(): CoverageReport | null;
+  /**
+   * Stores a coverage report for later retrieval.
+   */
+  storeLastCoverageReport(report: CoverageReport): void;
 }>;
 
 export function defineTool<Schema extends zod.ZodRawShape>(

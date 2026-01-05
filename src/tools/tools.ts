@@ -3,6 +3,7 @@
  * Copyright 2025 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import * as bundleAnalysisTools from './bundleAnalysis.js';
 import * as consoleTools from './console.js';
 import * as coverageTools from './coverage.js';
 import * as emulationTools from './emulation.js';
@@ -16,6 +17,7 @@ import * as snapshotTools from './snapshot.js';
 import type {ToolDefinition} from './ToolDefinition.js';
 
 const tools = [
+  ...Object.values(bundleAnalysisTools),
   ...Object.values(consoleTools),
   ...Object.values(coverageTools),
   ...Object.values(emulationTools),
